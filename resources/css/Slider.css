@@ -1,0 +1,38 @@
+.banner-container{
+    text-align:center;
+    margin-top:20px;
+    position:relative
+}
+
+.banner-image{
+    width:80%;
+    border-radius:10px;
+}
+
+.prev-button,
+.next-button{
+    position:absolute;
+    top:50%;
+    border-radius:50%;
+    width:40px;
+    height:40px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    transform: translateY(-50%);
+    background:rgba(0, 0, 0, 0.579);
+    border:none;
+}
+
+.prev-button{
+    left:8%
+}
+
+.next-button{
+    right:8%;
+}
+
+.slider-icon{
+    color:white;
+}

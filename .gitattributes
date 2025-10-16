@@ -1,0 +1,48 @@
+# ===================================
+# Laravel + React (Vite) .gitattributes
+# ===================================
+
+# === Normalize line endings ===
+* text=auto eol=lf
+
+# === Treat these files as text ===
+*.php text
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.css text
+*.scss text
+*.html text
+*.json text
+*.md text
+*.yml text
+*.yaml text
+*.blade.php text
+
+# === Treat these files as binary ===
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.zip binary
+
+# === Laravel-specific rules ===
+# Ensure migrations and routes diff nicely
+database/migrations/*.php diff=php
+routes/*.php diff=php
+
+# === Improve diffs for common file types ===
+*.md diff
+*.json diff
+*.yml diff
+*.yaml diff
+
+# === Auto-detect text files and perform LF normalization ===
+# (Git will handle line endings correctly across Windows/macOS/Linux)

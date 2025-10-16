@@ -1,0 +1,87 @@
+.greeting{
+    margin-top:20px;
+    text-align:center;
+    font-size:1.8rem
+}
+
+.homepage-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.quick-access-container{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:12px
+}
+
+.quick-access-element-container{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:12px;
+}
+
+.quick-access-element{
+    width:150px;
+    height:100px;
+    border-radius:8px;
+    border:none;
+    background:#ebeee8;
+    font-size:2vh;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.quick-access-schedule-container{
+    display:flex;
+    flex-direction:row;
+    width:100%;
+    justify-content:center;
+    align-items:flex-start;
+    width:auto;
+    gap:60px;
+    padding:40px
+}
+
+.schedule-container{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+}
+
+.schedule{
+    background:#ebeee8;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
+    border-radius:5px;
+    padding:10px 60px 10px 60px;
+    gap:5px;
+
+}
+
+.schedule-content-container{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+
+}
+
+@media (max-width:768px){
+    .quick-access-schedule-container{
+        flex-direction:column;
+        justify-content:center;
+        align-items:Center;
+        
+    }
+
+}

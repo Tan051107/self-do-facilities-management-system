@@ -1,0 +1,13 @@
+.table-container{
+    display:flex;
+    flex-direction:column;
+    width:90%;
+    margin: 0 auto;
+    margin-top:20px;
+}
+
+.add-new-btn-section{
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end
+}

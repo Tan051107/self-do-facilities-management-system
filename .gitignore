@@ -1,0 +1,55 @@
+# ===================================
+# Laravel + React (Vite) .gitignore
+# ===================================
+
+# === Environment Files ===
+.env
+.env.*
+!.env.example
+
+# === Dependencies ===
+/vendor/
+/node_modules/
+
+# === Laravel Specific ===
+/public/storage
+/storage/*.key
+/storage/app/public/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+bootstrap/cache/*
+
+# === Compiled Assets ===
+/public/build/
+/public/hot
+
+# === NPM/Yarn logs ===
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# === Vite cache ===
+.vite/
+
+# === IDE & Editor files ===
+.vscode/
+.idea/
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+
+# === System Files ===
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+Icon?
+
+# === Optional ===
+# Uncomment below if you don't want lock files tracked
+# composer.lock
+# package-lock.json
+# yarn.lock

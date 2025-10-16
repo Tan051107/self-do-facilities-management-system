@@ -1,0 +1,127 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+h1{
+    font-size:30px;
+}
+
+.subtitle{
+    font-size:23px;
+    font-weight:bold;
+}
+
+.desc{
+    font-size:18px;
+}
+
+.logo{
+    margin:0;
+}
+
+.login-wrapper{
+    margin-top:110px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.login-container{
+    width:90%;
+    margin:0 auto;
+    max-width: 1200px;
+    display:flex;
+    flex-direction:row;
+    border-radius:10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+
+.left-section{
+    flex:1;
+    background:#6D94C5;
+    padding:40px 20px 40px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.right-section{
+    flex:1;
+    padding:40px 20px 40px 20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+
+}
+
+.login-form{
+    width:80%;
+    display:flex;
+    flex-direction:column;
+    gap:15px
+}
+
+.input{
+    font-size:18px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:15px;
+}
+
+
+
+.show-password-section{
+    display:flex;
+    flex-direction:row;
+    gap:8px;
+    align-items:center;
+}
+
+input[type="checkbox"]{
+    transform: scale(1.5)
+}
+
+.log-in-button,
+.submit-btn{
+    width:100%;
+    padding:15px 8px 15px 8px;
+    font-size:18px;
+    font-weight:bold;
+    background:#6d95c59e;
+    border-radius:5px;
+    cursor:pointer;
+    border:none;
+}
+
+.forgot-password{
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.forgot-password:hover{
+    text-decoration:underline;
+}
+
+.login-failed-message{
+    color:red;
+    font-weight:bold;
+}
+
+@media(max-width:768px){
+    .login-container{
+        flex-direction:column;
+    }
+
+    .left-section{
+        align-items:center;
+    }
+}
+

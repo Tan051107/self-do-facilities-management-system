@@ -1,0 +1,36 @@
+.add-announcement-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:60vh
+
+}
+
+.add-announcement-section{
+    display:flex;
+    flex-direction:column;   
+    width:90%;
+    max-width:768px;
+    padding:10px;
+    gap:20px;
+}
+
+.add-announcement-form{
+    display:flex;
+    flex-direction:column; 
+    gap:20px;  
+}
+
+.recepient-container{
+    display:flex;
+    flex-direction:column;
+    width:100%
+}
+
+.recepient-section{
+    display:flex;
+    flex-direction:row;
+    width:100%;
+    justify-content:space-between;
+}
