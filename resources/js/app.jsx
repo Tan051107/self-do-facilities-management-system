@@ -9,6 +9,7 @@ import '../css/app.css';
 import Navbar from "./Navbar.jsx";
 import Login from "./Login.jsx"
 import Profile from "./Profile.jsx";
+import Notification from './Notification.jsx';
 
 import NonAdminHome from "./NonAdminHomePage.jsx";
 import DisplayBusSchedule from "./DisplayBusSchedule.jsx";
@@ -49,6 +50,7 @@ function AppRoutes (){
             <Route path='/transport' element={<DisplayBusSchedule/>}></Route>
             <Route path ="/transport-management" element={<TransportManagement/>}></Route>  
             <Route path="/announcement" element={<ManageAnnouncement/>}></Route>
+            <Route path="/notifications" element={<Notification/>}></Route>
         </Route>  
       </Routes>
     </>

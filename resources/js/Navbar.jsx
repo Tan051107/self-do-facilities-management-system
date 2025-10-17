@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import apuLogo from '../images/apu-logo.png';
 import "../css/Navbar.css"; // Import CSS
 import '../css/app.css';
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { fetchNotifications } from "./notification.js";
 
 export default function Navbar( ) {
 
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const role = localStorage.getItem('user-role')
   const [notifications,setNotifications] = useState([])
   const[isShowNotification,setIsShowNotification] = useState(false)
+  const [windowWidth,setWindowWidth] = useState(window.innerWidth)
   const nonAdminNavBarElements = [
     { url: '/timetable', label: "Timetable"},
     { url: '/library', label: "Library"},
@@ -30,12 +32,23 @@ export default function Navbar( ) {
 
     const navBarElements = role=="admin"? adminNavBarElements : nonAdminNavBarElements;
 
-    const showNotification = async()=>{
-      const result = await fetchNotifications();
-      setNotifications(result)
-      setIsShowNotification(prev=>!prev)
+    useEffect(()=>{
+      const handleResize =()=>setWindowWidth(window.innerWidth);
+      window.addEventListener('resize',handleResize);
+      return()=>window.removeEventListener('resize',handleResize)
+    },[])
 
+    const showNotification = async()=>{
+      if(windowWidth<=768){
+        navigate('/notifications')
+      }
+      else{
+        const result = await fetchNotifications();
+        setNotifications(result)
+        setIsShowNotification(prev=>!prev)
+      }
     }
+
 
     function NotificationDropDown(){
       return(
@@ -48,7 +61,7 @@ export default function Navbar( ) {
           : (
             <div className="dropdown-notification-section">
               {notifications.map((notification,index)=>(
-                <div key={index} className= {`notification ${index%2===0? "even-notification" : ""}`}>
+                <div key={index} className= {`dropdown-notification ${index%2===0? "even-notification" : ""}`}>
                   <h1>{notification.title}</h1>
                   <p className="posting-date-time">{notification.posting_date_time}</p>
                 </div>

@@ -18,14 +18,7 @@ class AnnouncementController extends Controller
         ]);
 
 
-        if(in_array('all',$incomingFields['recepient'])){
-            $roles = ['admin','lecturer','student'];
-        }
-        else{
-            $roles = $incomingFields['recepient'];
-        }
-
-        foreach($roles as $role){
+        foreach($incomingFields['recepient'] as $role){
             Announcement::create([
                 'publisher' => $incomingFields['publisher'],
                 'posting_date_time' => $incomingFields['posting_date_time'],
