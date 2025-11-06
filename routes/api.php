@@ -20,6 +20,13 @@ Route::get('/getBusSchedule',[BusScheduleController::class, 'getBusSchedule']);
 Route::delete('/deleteSchedule/{bus_schedule}',[BusScheduleController::class,'deleteBusSchedule']);
 
 Route::post('/announcement',[AnnouncementController::class, 'addAnnouncement']);
+Route::put('/announcement/{announcement}',[AnnouncementController::class, 'editAnnouncement']);
 Route::get('/allAnnouncement' , [AnnouncementController::class, 'getAllAnnouncement']);
-Route::middleware('auth:sanctum')-> get('/announcement',[AnnouncementController::class , 'getAnnouncement']);
+Route::middleware('auth:sanctum')-> group(function(){
+    Route::get('/announcement',[AnnouncementController::class , 'getAnnouncement']);
+
+    Route::post('/announcement/{id}/read',[AnnouncementController::class, 'markAsRead']);
+
+    Route::post('/announcement/read-all',[AnnouncementController::class,'markAllAsRead']);
+});
 Route::delete('/announcement' , [AnnouncementController::class , 'deleteAnnouncement']);

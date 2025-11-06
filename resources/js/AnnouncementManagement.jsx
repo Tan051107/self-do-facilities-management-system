@@ -8,10 +8,12 @@ export default function ManageAnnouncement(){
 
     const [announcements, setAnnouncements] = useState([])
     const [showForm,setShowForm] = useState(false)
+    const [editAnnouncementData,setEditAnnouncementData] = useState()
 
     const fetchAnnouncements = async () => {
         try {
             const result = await axios.get('/allAnnouncement');
+            console.log(result.data)
             setAnnouncements(result.data);
         } catch (err) {
             console.error('Failed to fetch announcements:', err);
@@ -47,6 +49,11 @@ export default function ManageAnnouncement(){
         }
     }
 
+    const editAnnouncement =(announcementData) =>{
+        setEditAnnouncementData(announcementData);
+        setShowForm(true);
+    }
+
     
 
     return(
@@ -71,13 +78,19 @@ export default function ManageAnnouncement(){
                             <tr key={index}>
                                 <td>{notification.posting_date_time}</td>
                                 <td>{notification.title}</td>
-                                <td>{notification.message}</td>
-                                <td>{notification.recepient.charAt(0).toUpperCase()+notification.recepient.slice(1)}</td>
+                                <td><div className="table-notification-message">{notification.message}</div></td>
+                                <td>
+                                    <ol>
+                                        {notification.recepient.map((r, index) => (
+                                            <li key={index} style={{ textTransform: 'capitalize'}}>{r}</li>
+                                        ))}
+                                    </ol>
+                                </td>
                                 <td>
                                     {
                                         !isPastDateTime(notification.posting_date_time) && (
                                         <div className="edit-delete-section">
-                                            <button className="edit-btn">Edit</button>
+                                            <button className="edit-btn" onClick={(()=>editAnnouncement(notification))}>Edit</button>
                                             <button className="delete-btn" onClick={()=>deleteAnnouncement({posting_date_time:notification.posting_date_time, id:notification.id})}>Delete</button>
                                         </div>
                                         )
@@ -88,7 +101,7 @@ export default function ManageAnnouncement(){
                     }
                 </tbody>
             </table>  
-            {showForm && <AddAnnouncementForm submitSuccess={submitSuccess} closeForm={()=>setShowForm(false)}/>}    
+            {showForm && <AddAnnouncementForm editAnnouncementData={editAnnouncementData} submitSuccess={submitSuccess} closeForm={()=>{setShowForm(false);setEditAnnouncementData()}}/>}    
         </div>
     )
     

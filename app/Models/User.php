@@ -47,4 +47,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function readAnnouncements(){
+        return $this->belongsToMany(Announcement::class,'announcement_user')
+                    -> withPivot('read_at')
+                    ->withTimeStamps();
+    }
 }

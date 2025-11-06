@@ -17,16 +17,9 @@ class AnnouncementController extends Controller
             'recepient' => ['required', 'array']
         ]);
 
+        $announcement = Announcement::create($incomingFields);
 
-        foreach($incomingFields['recepient'] as $role){
-            Announcement::create([
-                'publisher' => $incomingFields['publisher'],
-                'posting_date_time' => $incomingFields['posting_date_time'],
-                'title' => $incomingFields['title'],
-                'message'  => $incomingFields['message'],
-                'recepient' => $role
-            ]);
-        }
+
 
         return response()->json(['message' => 'Announcements added successfully'], 201);
 
@@ -38,18 +31,29 @@ class AnnouncementController extends Controller
         if(!$user){
             return response()-> json(['error'=>'Unauthorized'],401);
         }
-        
+
 
         $announcements = Announcement::where('posting_date_time',"<=",now())
-        ->whereIn('recepient',[$user->role, 'all'])
-        ->orderByDesc('posting_date_time')
-        ->get();
+                                      ->where (function($userAnnouncements) use ($user){
+                                        $userAnnouncements -> whereJsonContains('recepient','all')
+                                                           ->orWhereJsonContains('recepient', $user->role);
+                                      })
+                                      ->orderByDesc('posting_date_time')
+                                      ->get()
+                                      ->map(function($announcement) use ($user){
+                                        $announcement -> is_read = $user -> readAnnouncements()
+                                                      -> where('announcement_id',$announcement->id)
+                                                      ->exists();
+                                        return $announcement;
+                                      });
 
         return response()->json($announcements);
     }
 
     public function getAllAnnouncement(){
-        return Announcement::all();
+        $announcements =  Announcement::all();
+
+        return response()->json($announcements);
     }
 
     public function deleteAnnouncement(Request $request){
@@ -67,8 +71,56 @@ class AnnouncementController extends Controller
         }
 
         $announcement->delete();
+    }
+
+    public function markAsRead(Request $request , $announcementId){
+        $user = auth()->user();
+
+        if(!$user){
+            return response()-> json(['error'=>'Unauthorized'],401);
+        }
+
+        $user -> readAnnouncements()-> syncWithoutDetaching([
+            $announcementId => ['read_at'=> now()]
+        ]);
+
+        return response()->json([
+            'message' => 'Announcement marked as read',
+        ]);
+    }
+
+    public function markAllAsRead(Request $request){
+        $user = auth()-> user();
+
+        if(!$user){
+            return response()-> json(['error' =>'Unauthorized'],401);
+        }
+
+        $unreadAnnouncements = Announcement::where('posting_date_time','<=',now())
+                                            ->whereIn('recepient',[$user->role,'all'])
+                                            ->pluck('id')
+                                            ->toArray();
+        if(!empty($unreadAnnouncements)){
+            $user->readAnnouncements()->syncWithoutDetaching(
+                array_fill_keys($unreadAnnouncements,['read_at'=>now()])
+            );
+        }
+
+        return response() -> json([
+            'message' => 'All announcements marked as read'
+        ]);
+    }
+
+    public function editAnnouncement(Request $request, Announcement $announcement){
+        $incomingFields = $request ->validate([
+            'publisher' => ['required','integer'],
+            'posting_date_time' => ['required' , 'date'],
+            'title' => ['required' , 'string'],
+            'message' => ['required' , 'string'],
+            'recepient' => ['required', 'array']
+        ]);
 
 
-
+        $announcement -> update($incomingFields);
     }
 }

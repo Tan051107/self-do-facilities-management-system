@@ -26,14 +26,16 @@
 }
 
 .quick-access-element{
-    width:150px;
+    width:140px;
     height:100px;
+    padding:10px;
     border-radius:8px;
     border:none;
     background:#ebeee8;
     font-size:2vh;
     font-weight:bold;
     cursor:pointer;
+    line-height:25px;
 }
 
 .quick-access-schedule-container{

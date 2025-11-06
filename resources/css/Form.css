@@ -109,6 +109,12 @@ label{
 
 }
 
+.error-message{
+    color:red;
+    font-weight:bold;
+    font-size:14px;
+}
+
 @media(max-width:768px){
     .form-row{
         flex-direction:column;

@@ -8,7 +8,7 @@ import axios from './axios.js'
 
 export default function Profile(){
 
-    const {user} = useContext(UserContext);
+    const {user,loading} = useContext(UserContext);
     const navigate = useNavigate();
 
     
@@ -22,35 +22,37 @@ export default function Profile(){
         finally{
             localStorage.removeItem("auth-token");
             localStorage.removeItem("user-role");
+            localStorage.removeItem('user')
 
-            navigate("/");
+            navigate("/login", { replace: true });;
         }
-        };
-    
-    return(
-        <div>                        
-            <div className="outer-container">
-                <div className="logout-button-container">
-                    <button className="logout-icon-container" onClick={handleLogOut}><span className="material-symbols-rounded">logout</span></button>
-                </div>
-                <div className="profile-container">
-                    <div className="profile-image-section">
-                        <h1>Student Profile</h1>
-                        <div className="profile-image-container"><img className="profile-image" src={profilePic} alt="profile-pic" /></div>
-                        <div className="name-email-container">
-                            <p>{user.name}</p>
-                            <p><strong>{user.email}</strong></p>
-                        </div>
+    };
+
+    if (!loading){    
+        return(
+            <div>                        
+                <div className="outer-container">
+                    <div className="logout-button-container">
+                        <button className="logout-icon-container" onClick={handleLogOut}><span className="material-symbols-rounded">logout</span></button>
                     </div>
-                    <div className="details-container">
-                        <h2>Student Details</h2>
-                        <p className="details"><strong>Student ID: </strong>{user.user_id}</p>
-                        <p className="details"><strong>Course: </strong>Diploma in Software Engineering</p>
-                        <p className="details"><strong>Date of Birth: </strong>{user.DOB}</p>
-                        <p className="details"><strong>Intake Code: </strong>UCDF2308ICT&#40;SE&#41;</p>
+                    <div className="profile-container">
+                        <div className="profile-image-section">
+                            <h1>Student Profile</h1>
+                            <div className="profile-image-container"><img className="profile-image" src={profilePic} alt="profile-pic" /></div>
+                            <div className="name-email-container">
+                                <p>{user.name}</p>
+                                <p><strong>{user.email}</strong></p>
+                            </div>
+                        </div>
+                        <div className="details-container">
+                            <h2>Student Details</h2>
+                            <p className="details"><strong>Student ID: </strong>{user.user_id}</p>
+                            <p className="details"><strong>Course: </strong>Diploma in Software Engineering</p>
+                            <p className="details"><strong>Date of Birth: </strong>{user.DOB}</p>
+                            <p className="details"><strong>Intake Code: </strong>UCDF2308ICT&#40;SE&#41;</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+            )}
 }

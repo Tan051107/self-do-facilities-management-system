@@ -7,6 +7,7 @@ export default function AddScheduleForm ({submitSuccess}){
     
     const [route,setRoute] = useState("apu-to-lrt")
     const [form,setForm] = useState({origin:"",destination:"",arrival_time:""})
+    const [error,setError] =useState({})
 
     useEffect(()=>{
         const isAputoLrt = route === "apu-to-lrt";
@@ -27,7 +28,9 @@ export default function AddScheduleForm ({submitSuccess}){
 
         }
         catch(err){
-            console.error("Error adding schedule",err)
+            if (err.response && err.response.status === 422){
+                setError(err.response.data.errors)
+            }
         }
         finally{
             setRoute("")
@@ -54,6 +57,7 @@ export default function AddScheduleForm ({submitSuccess}){
                             <label>
                                 <p>Arrival Time</p>
                                 <input type="time" value ={form.arrival_time} onChange={(e)=>setForm((prev)=>({...prev,arrival_time:e.target.value}))}/>
+                                {error.origin && <div className="error-message">{error.origin[0]}</div>}
                             </label>
                         </div>
                     </form>

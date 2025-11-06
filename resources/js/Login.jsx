@@ -31,10 +31,10 @@ export default function Login(){
 
 
             if (role == "admin"){
-                navigate("/admin/homepage");
+                navigate("/admin");
             }
             else {
-                navigate("/homepage");
+                navigate("/");
             }
             console.log(loginFailed)
 

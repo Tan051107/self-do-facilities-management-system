@@ -18,6 +18,7 @@ import AdminHome from "./AdminHomePage.jsx";
 import CreateAcc from "./CreateAcc.jsx"
 import TransportManagement from "./TransportManagement.jsx"
 import ManageAnnouncement from "./AnnouncementManagement.jsx"
+import { NotificationProvider } from "../context/NotificationContext.jsx";
 
 
 function AuthLayout (){
@@ -39,18 +40,21 @@ function AppRoutes (){
     <>
       <Routes>
         <Route element = {<AuthLayout/>}>
-            <Route path="/" element={<Login/>}></Route>
+            <Route path="/login" element={<Login/>}></Route>
         </Route>
-        <Route element = {<AppLayout/>}>
-            <Route path="/admin/homepage" element={<ProtectedRoute role = "admin"><AdminHome/></ProtectedRoute>}/>
-            <Route path="/homepage" element={<ProtectedRoute role = "student"><NonAdminHome/></ProtectedRoute>}/>
-            <Route path="/homepage" element={<ProtectedRoute role="lecturer"><NonAdminHome/></ProtectedRoute>}/> 
-            <Route path="/profile" element={<Profile/>}></Route>  
-            <Route path ="/create-acc" element ={<CreateAcc/>}></Route>  
-            <Route path='/transport' element={<DisplayBusSchedule/>}></Route>
-            <Route path ="/transport-management" element={<TransportManagement/>}></Route>  
-            <Route path="/announcement" element={<ManageAnnouncement/>}></Route>
-            <Route path="/notifications" element={<Notification/>}></Route>
+        <Route element = {
+          <NotificationProvider>
+            <AppLayout/>
+          </NotificationProvider>
+        }>
+          <Route path="/admin" element={<ProtectedRoute role = "admin"><AdminHome/></ProtectedRoute>}/>
+          <Route path="/" element={<ProtectedRoute><NonAdminHome/></ProtectedRoute>}/>
+          <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}></Route>  
+          <Route path ="/create-acc" element ={<ProtectedRoute role="admin"><CreateAcc/></ProtectedRoute>}></Route>  
+          <Route path='/transport' element={<ProtectedRoute><DisplayBusSchedule/></ProtectedRoute>}></Route>
+          <Route path ="/transport-management" element={<ProtectedRoute role="admin"><TransportManagement/></ProtectedRoute>}></Route>  
+          <Route path="/announcement" element={<ProtectedRoute role="admin"><ManageAnnouncement/></ProtectedRoute>}></Route>
+          <Route path="/notifications" element={<ProtectedRoute><Notification/></ProtectedRoute>}></Route>
         </Route>  
       </Routes>
     </>

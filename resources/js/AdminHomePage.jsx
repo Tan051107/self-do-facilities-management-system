@@ -4,6 +4,7 @@ import Slider from './Slider.jsx'
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext.jsx";
 
+
 export default function AdminHome(){
 
     function returnGreetings (){
@@ -29,43 +30,43 @@ export default function AdminHome(){
         { url: "/create-acc", label: "Create Account"},
     ]
 
-    const {user} = useContext(UserContext)
+    const {user,loading} = useContext(UserContext)
 
-
-    return(
-        <div className="homepage-container">
-            <h1 className="greeting">{`${greeting} , ${user.name}`}</h1>
-            <Slider/>
-            <div className="quick-access-schedule-container">
-                <div className="quick-access-container">
-                    <h1>Quick Access</h1>
-                    <div className="quick-access-element-container">
-                        {
-                            quickAccessElements.map((quickAccessElement,index)=>(
-                                <Link to = {quickAccessElement.url} key={index}><button className="quick-access-element">{quickAccessElement.label}</button></Link>
-                            ))
-                        }
-                    </div>
-                </div>
-                <div className="schedule-container">
-                    <h1>Today's schedule</h1>
-                    <div className="schedule-content-container">
-                        <div className="schedule">
-                            <p>Capstone Project</p>
-                            <p>Auditorium</p>
-                            <p>8.30 AM - 10.30 AM</p>
-                            <p>Lecturer:Benjamin</p>
+    if (!loading){    
+        return(
+            <div className="homepage-container">
+                <h1 className="greeting">{`${greeting} , ${user.name}`}</h1>
+                <Slider/>
+                <div className="quick-access-schedule-container">
+                    <div className="quick-access-container">
+                        <h1>Quick Access</h1>
+                        <div className="quick-access-element-container">
+                            {
+                                quickAccessElements.map((quickAccessElement,index)=>(
+                                    <Link to = {quickAccessElement.url} key={index}><button className="quick-access-element">{quickAccessElement.label}</button></Link>
+                                ))
+                            }
                         </div>
-                        <div className="schedule">
-                            <p>Capstone Project</p>
-                            <p>Auditorium</p>
-                            <p>8.30 AM - 10.30 AM</p>
-                            <p>Lecturer:Benjamin</p>
+                    </div>
+                    <div className="schedule-container">
+                        <h1>Today's schedule</h1>
+                        <div className="schedule-content-container">
+                            <div className="schedule">
+                                <p>Capstone Project</p>
+                                <p>Auditorium</p>
+                                <p>8.30 AM - 10.30 AM</p>
+                                <p>Lecturer:Benjamin</p>
+                            </div>
+                            <div className="schedule">
+                                <p>Capstone Project</p>
+                                <p>Auditorium</p>
+                                <p>8.30 AM - 10.30 AM</p>
+                                <p>Lecturer:Benjamin</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+            )}
 
 }
