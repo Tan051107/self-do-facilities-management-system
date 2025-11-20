@@ -1,0 +1,66 @@
+.apu-logo{
+    width:50%;
+    max-width:500px
+}
+
+.outer-content-container{
+    display:flex;
+    flex-direction:column;
+    height:80vh;
+    justify-content:center;
+    align-items:center;
+    margin: 0 auto;
+}
+
+.content-container{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    gap:50px;
+
+}
+
+.right-content-container{
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items:center;
+    gap:18px;
+
+}
+
+
+.not-found-title{
+    font-size:20vh;
+    margin:0;
+}
+
+.not-found-subtitle{
+    font-size:5vh;
+    text-wrap:nowrap;
+}
+
+.not-founddesc{
+    font-size:20px;
+}
+
+
+.home-button{
+    font-size:20px;
+    padding:10px;
+    background:#EBEEE8;
+    border-color:rgb(197, 193, 188);
+    display:flex;
+    align-items:center;
+    cursor:pointer;
+}
+
+
+@media(max-width:768px){
+    .content-container{
+        flex-direction:column;
+        align-items:center;
+    }
+}

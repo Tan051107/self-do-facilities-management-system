@@ -13,7 +13,6 @@ export default function Navbar( ) {
   const[isShowNotification,setIsShowNotification] = useState(false)
   const [windowWidth,setWindowWidth] = useState(window.innerWidth)
   const [expandedDropDowns, setExpandedDropDowns] = useState(new Set())
-  const [expandIcon,setExpandIcon] =  useState()
   const nonAdminNavBarElements = [
     { url: '/timetable', label: "Timetable"},
     { url: '/library', label: "Library"},
@@ -95,9 +94,6 @@ export default function Navbar( ) {
       setOpen(false);
       setExpandedDropDowns(new Set())
     }
-    
-    
-
 
     function MobileMenu(){
       return(
@@ -160,16 +156,13 @@ export default function Navbar( ) {
   return (
     <header>
       <div className="navbar-container">
-        <Link to ={role === "admin" ? "/admin" : "/"} onClick={()=>resetExpand()}><img className="logo" src={apuLogo} alt="Apu Logo"/></Link>
+        <Link to ={`${role === "admin" ? "admin/" : ""}homepage`} onClick={()=>resetExpand()}><img className="logo" src={apuLogo} alt="Apu Logo"/></Link>
         <nav className={`navbar ${open?"active":""}`}>
           {
             navBarElements.map((navBarElement,index)=>(
               navBarElement.dropdowns?(
-                <div key={index} className="header-menu" onMouseOver={()=>setExpandIcon(index)} onMouseLeave={()=>setExpandIcon(null)}>
-                  <div className="desktop-dropdown-label-container">
-                      <span className="link">{navBarElement.label}</span>
-                      <span className="material-symbols-rounded">{expandIcon===index? "expand_more" : "expand_less"}</span>
-                  </div>
+                <div key={index} className="header-menu">
+                  <span className="link">{navBarElement.label}</span>
                   <div className="dropdown-container">
                     {
                       navBarElement.dropdowns.map((dropdown,index)=>(

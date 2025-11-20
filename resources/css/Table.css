@@ -1,4 +1,4 @@
-.schedule-timetable {
+.management-timetable {
   width: 90%;
   table-layout: fixed; /* important */
   border-collapse: collapse;
@@ -12,8 +12,8 @@
     margin-right:10px
 }
 
-.schedule-timetable th,
-.schedule-timetable td {
+.management-timetable th,
+.management-timetable td {
   border: 1px solid #ccc;
   vertical-align: center;
 
@@ -35,7 +35,7 @@
     margin: 0;
 }
 
-.schedule-timetable td ol {
+.management-timetable td ol {
   padding-left: 1.2em;
   height:100%;
   display:flex;

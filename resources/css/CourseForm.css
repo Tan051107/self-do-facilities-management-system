@@ -1,0 +1,76 @@
+.add-sem-button{
+    display:flex;
+    
+}
+
+.delete-subject-btn{
+    padding:5px;
+    background:red;
+    color:rgba(255, 255, 255, 0.933);
+    border:none;
+    border-radius:5px;
+    align-items:center;
+    display:flex;
+    flex-direction:row;
+    cursor:pointer;
+}
+
+.delete-subject-btn:hover{
+    background:rgba(255, 0, 0, 0.592)
+}
+
+.subject-input-container{
+    display:flex;
+    flex-direction:row;
+    gap:10px;
+}
+
+.sem-container{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+
+}
+
+.add-subject-btn{
+    cursor:pointer;
+    display:inline-flex;
+    flex-direction:row;
+    align-items:center;
+    padding:0;
+    margin:0;
+    max-width:fit-content;
+}
+
+.add-subject-btn:hover{
+    color:rgba(168, 195, 13, 0.896)
+}
+
+.sem-name-section{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.delete-semester{
+    font-size:15px;
+    padding:8px
+}
+
+.subject-input-label-container{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.sem-name{
+    font-weight:bold;
+    font-size:18px;
+}
+
+.add-semester-btn-section{
+    display:flex;
+    justify-content: end;
+    margin:10px 0 10px 10px
+}

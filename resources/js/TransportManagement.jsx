@@ -2,10 +2,12 @@ import axios from './axios.js'
 import { useState,useEffect } from 'react';
 import '../css/TransportManagement.css';
 import AddScheduleForm from './AddScheduleForm.jsx';
+import TableFrame from './TableFrame.jsx';
 export default function TransportManagement(){
 
     const [schedules,setSchedules] = useState([]);
     const [showForm,setShowForm] = useState(false);
+    const headers = ["Origin" , "Destination" , "Departure" , "Actions"]
 
     const fetchSchedule = async()=>{
         try{
@@ -44,15 +46,7 @@ export default function TransportManagement(){
         <div className="table-container">
             <div className="add-new-btn-section"><button className="add-new-btn" onClick={()=>setShowForm(true)}>Add New</button></div>
             <h1>Transport Management</h1>
-            <table className="schedule-timetable" border="1" cellPadding="12">
-                <thead>
-                    <tr>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Departure Time</th>
-                        <th>Action</th>                          
-                   </tr>
-                </thead>
+            <TableFrame headers={headers}>
                 <tbody>
                     {
                         schedules.map((schedule,index)=>(
@@ -67,7 +61,7 @@ export default function TransportManagement(){
                         ))
                     }
                 </tbody>
-            </table>
+            </TableFrame>
             {showForm && <AddScheduleForm submitSuccess={submitSuccess}/>}
         </div>
     )

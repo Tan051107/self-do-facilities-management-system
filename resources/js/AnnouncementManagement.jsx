@@ -2,6 +2,7 @@ import '../css/Table.css'
 import { useState,useEffect } from "react"
 import AddAnnouncementForm from "./AddAnnouncementForm.jsx"
 import axios from './axios.js'
+import TableFrame from './TableFrame.jsx'
 
 
 export default function ManageAnnouncement(){
@@ -9,6 +10,7 @@ export default function ManageAnnouncement(){
     const [announcements, setAnnouncements] = useState([])
     const [showForm,setShowForm] = useState(false)
     const [editAnnouncementData,setEditAnnouncementData] = useState()
+    const headers = ["Posting Date Time", "Title" , "Message" , "Recepient" , "Actions" ]
 
     const fetchAnnouncements = async () => {
         try {
@@ -62,16 +64,7 @@ export default function ManageAnnouncement(){
                 <button className="add-new-btn" onClick={()=>{setShowForm(true)}}>Add New</button>
             </div>
             <h1>Announcement Management</h1>
-            <table className="schedule-timetable" border="1" cellPadding="12">
-                <thead>
-                    <tr>
-                        <th>Posting Date & Time</th>
-                        <th>Title</th>
-                        <th>Message</th>
-                        <th>Recepient</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+            <TableFrame headers={headers}>
                 <tbody>
                     {
                         announcements.map((notification,index)=>(
@@ -100,7 +93,7 @@ export default function ManageAnnouncement(){
                         ))
                     }
                 </tbody>
-            </table>  
+            </TableFrame>
             {showForm && <AddAnnouncementForm editAnnouncementData={editAnnouncementData} submitSuccess={submitSuccess} closeForm={()=>{setShowForm(false);setEditAnnouncementData()}}/>}    
         </div>
     )

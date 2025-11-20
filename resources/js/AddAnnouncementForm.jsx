@@ -2,6 +2,7 @@ import "../css/ManageAnnouncement.css"
 import '../css/Form.css'
 import axios from './axios.js';
 import { useState,useEffect } from "react";
+import FormFrame from "./FormFrame.jsx";
 
 
 export default function AddAnnouncementForm({editAnnouncementData,submitSuccess, closeForm}){
@@ -73,12 +74,12 @@ export default function AddAnnouncementForm({editAnnouncementData,submitSuccess,
         if (Object.keys(validationError).length === 0){
             try{
                 console.log(form)
-                const sendRequest = await(editAnnouncementData
+                const request = await(editAnnouncementData
                     ? axios.put(`/announcement/${editAnnouncementData.id}`,form)
                     : axios.post('/announcement',form)
                 );
                 console.log("Announcement successfully added");
-                console.log(sendRequest.data)
+                console.log(request.data)
                 alert(editAnnouncementData ? "Announcement is updated" : "New announcement will be posted according to posting date and time")
                 submitSuccess()
                 setForm({publisher:user.id,	posting_date_time:"",title:"",message:"", recepient:[]})
@@ -117,53 +118,44 @@ export default function AddAnnouncementForm({editAnnouncementData,submitSuccess,
 
 
     return(
-        <div className="add-things-container">
-            <div className="add-things-section">
-                <h1>{editAnnouncementData? "Edit Announcement" : "Add New Announcement"}</h1>
-                <form className="add-announcement-form">
-                    <div className="form-group">
-                        <label>
-                            <p>Posting Date & Time</p>
-                            <input type="datetime-local" value={form.posting_date_time} min={getMinDateTime()} onChange={(e)=>handleChange("posting_date_time",e.target.value)}/>
-                            {validationError.postingDateTimeError && <div className="error-message">{validationError.postingDateTimeError}</div>}
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label>
-                            <p>Title</p>
-                            <input type="text" value={form.title} onChange={(e)=>handleChange("title",e.target.value)}/>
-                            {validationError.titleError && <div className="error-message">{validationError.titleError}</div>}
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label>
-                            <p>Message</p>
-                            <textarea rows="5" cols="10" value={form.message} onChange={(e)=>handleChange("message",e.target.value)} />
-                            {validationError.messageError && <div className="error-message">{validationError.messageError}</div>}
-                        </label>
-                    </div>
-                    <div className="recepient-container">
-                        <div className="recepient-section">
-                            <p>Recepient</p>
-                            <label>
-                                <input type="checkbox" name="recepient" value= 'all' checked={form.recepient.includes('all')} onChange={()=>handleRoleChange("all")}/>
-                                <p>All</p>
-                            </label>
-                            {recepients.map((recepient,index)=>(
-                                <label key ={index} className="recepient-radio">
-                                    <input type="checkbox" name="recepient" value={recepient} checked={form.recepient.includes(recepient)} onChange={()=>handleRoleChange(recepient)} disabled={form.recepient.includes('all')}/>
-                                    <p style={{ textTransform: 'capitalize'}}>{recepient}</p>
-                                </label>
-                        ))}
-                        </div>
-                        {validationError.recepientError && <div className="error-message">{validationError.recepientError}</div>}
-                    </div>
-                </form>
-                <div className="add-cancel-btn-section">
-                    <button className="add-btn" onClick={()=>handlePostAnnouncement()}>{editAnnouncementData? "Update" : "Add"}</button>
-                    <button className="cancel-btn" onClick={closeForm}>Cancel</button>
-                </div>
+        <FormFrame title={`${editAnnouncementData ? "Edit" : "Add"} Announcement`} addButtonLabel = {editAnnouncementData ? "Update" : "Add"} addButtonFunction = {handlePostAnnouncement} cancelButtonFunction={closeForm}>
+            <div className="form-group">
+                <label>
+                    <p>Posting Date & Time</p>
+                    <input type="datetime-local" value={form.posting_date_time} min={getMinDateTime()} onChange={(e)=>handleChange("posting_date_time",e.target.value)}/>
+                    {validationError.postingDateTimeError && <div className="error-message">{validationError.postingDateTimeError}</div>}
+                </label>
             </div>
-        </div>
+            <div className="form-group">
+                <label>
+                    <p>Title</p>
+                    <input type="text" value={form.title} onChange={(e)=>handleChange("title",e.target.value)}/>
+                    {validationError.titleError && <div className="error-message">{validationError.titleError}</div>}
+                </label>
+            </div>
+            <div className="form-group">
+                <label>
+                    <p>Message</p>
+                    <textarea rows="5" cols="10" value={form.message} onChange={(e)=>handleChange("message",e.target.value)} />
+                    {validationError.messageError && <div className="error-message">{validationError.messageError}</div>}
+                </label>
+            </div>
+            <div className="recepient-container">
+                <div className="recepient-section">
+                    <p>Recepient</p>
+                    <label>
+                        <input type="checkbox" name="recepient" value= 'all' checked={form.recepient.includes('all')} onChange={()=>handleRoleChange("all")}/>
+                        <p>All</p>
+                    </label>
+                    {recepients.map((recepient,index)=>(
+                        <label key ={index} className="recepient-radio">
+                            <input type="checkbox" name="recepient" value={recepient} checked={form.recepient.includes(recepient)} onChange={()=>handleRoleChange(recepient)} disabled={form.recepient.includes('all')}/>
+                            <p style={{ textTransform: 'capitalize'}}>{recepient}</p>
+                        </label>
+                ))}
+                </div>
+                {validationError.recepientError && <div className="error-message">{validationError.recepientError}</div>}
+            </div>
+        </FormFrame>
     )
 }

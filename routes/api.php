@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\BusScheduleController;
 use App\Http\Controllers\AnnouncementController;
 
@@ -30,3 +32,13 @@ Route::middleware('auth:sanctum')-> group(function(){
     Route::post('/announcement/read-all',[AnnouncementController::class,'markAllAsRead']);
 });
 Route::delete('/announcement' , [AnnouncementController::class , 'deleteAnnouncement']);
+
+
+Route::post('/subject' , [SubjectController::class , 'addSubject']);
+Route::get('/subject', [SubjectController::class, 'getSubject']);
+Route::delete('/subject/{subject}', [SubjectController::class, 'deleteSubject']);
+Route::put('/subject/{subject}', [SubjectController::class , 'updateSubject']);
+
+
+Route::post('/course' , [CourseController::class , 'addCourse']);
+Route::get('/course' , [CourseController::class , 'getAllCourse']);

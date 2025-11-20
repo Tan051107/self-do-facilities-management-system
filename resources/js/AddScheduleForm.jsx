@@ -2,6 +2,7 @@ import "../css/TransportManagement.css"
 import '../css/Form.css'
 import axios from "./axios.js"
 import { useState, useEffect } from "react";
+import FormFrame from "./FormFrame.jsx";
 
 export default function AddScheduleForm ({submitSuccess}){
     
@@ -40,34 +41,25 @@ export default function AddScheduleForm ({submitSuccess}){
 
 
     return(
-            <div className = "add-things-container">
-                <div className = "add-things-section">
-                    <h1>Add New Schedule Time</h1>
-                    <form action="" className="add-schedule-form">
-                        <div className="form-group">
-                            <label>
-                                <p>Route</p>
-                                <select name="route" value={route} onChange={(e)=>setRoute(e.target.value)}>
-                                    <option value="apu-to-lrt"> APU ➡ LRT</option>
-                                    <option value="lrt-to-apu"> LRT ➡ APU</option>
-                                </select>
-                            </label>
-                        </div>
-                        <div className="form-group">
-                            <label>
-                                <p>Arrival Time</p>
-                                <input type="time" value ={form.arrival_time} onChange={(e)=>setForm((prev)=>({...prev,arrival_time:e.target.value}))}/>
-                                {error.origin && <div className="error-message">{error.origin[0]}</div>}
-                            </label>
-                        </div>
-                    </form>
-                    <div className="add-cancel-btn-section">
-                        <button className="add-btn" onClick={()=>handleAddTime()}>Add</button>
-                        <button className="cancel-btn" onClick={()=>submitSuccess()}>Cancel</button>
-                    </div>
-                </div>
-            </div>
-            )
+        <FormFrame title="Add New Schedule" addButtonLabel = "Add" addButtonFunction={handleAddTime} cancelButtonFunction={submitSuccess}>
+            <div className="form-group">
+                <label>
+                    <p>Route</p>
+                    <select name="route" value={route} onChange={(e)=>setRoute(e.target.value)}>
+                        <option value="apu-to-lrt"> APU ➡ LRT</option>
+                        <option value="lrt-to-apu"> LRT ➡ APU</option>
+                    </select>
+                </label>
+            </div> 
+            <div className="form-group">
+                <label>
+                    <p>Arrival Time</p>
+                    <input type="time" value ={form.arrival_time} onChange={(e)=>setForm((prev)=>({...prev,arrival_time:e.target.value}))}/>
+                    {error.origin && <div className="error-message">{error.origin[0]}</div>}
+                </label>   
+            </div>       
+        </FormFrame>
+    )
 
     }
 

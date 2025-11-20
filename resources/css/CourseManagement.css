@@ -1,0 +1,9 @@
+.course_table_subject_column{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.individual_semester_subject_section{
+    display:flex;
+    flex-direction:column;
+}
