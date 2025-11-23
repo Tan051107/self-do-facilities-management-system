@@ -19,6 +19,12 @@
     text-wrap:nowrap
   }
 
+  .desktop-navbar-label-container{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+  }
+
 
   .header-menu{
     position:relative;
@@ -41,6 +47,7 @@
     flex-direction:column;
     text-align:center;
     margin-top:5px; 
+    z-index:100;
   }
 
   .dropdown-item{
@@ -197,20 +204,25 @@
   }
 
 
-.mobile-menu-container{
-  position:fixed;
-  top:95px;
-  bottom:0;
-  left:0;
-  right:0;
-  background:white;
-  z-index:1000;
-  padding:15px;
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+.mobile-menu-container {
+  position: fixed;   /* fixes menu to viewport */
+  top: 85px;
+  left: 0;
+  right: 0;
+  bottom: 0;        /* full height */
+  background: white;
+  z-index: 1000;
+  padding: 15px;
   overflow-y: auto;
+  display:none
 }
+
+.mobile-menu-container.active{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 
 .mobile-header-menu{
   display:flex;
@@ -237,9 +249,7 @@
 }
 
 body.no-scroll{
-  position:fixed;
   overflow:hidden;
-  width:100%
 }
 
 

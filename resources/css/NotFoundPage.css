@@ -6,7 +6,7 @@
 .outer-content-container{
     display:flex;
     flex-direction:column;
-    height:80vh;
+    height:85vh;
     justify-content:center;
     align-items:center;
     margin: 0 auto;

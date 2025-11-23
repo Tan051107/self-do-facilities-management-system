@@ -3,11 +3,13 @@ import TableFrame from './TableFrame.jsx'
 import AddCourseForm from "./AddCourseForm.jsx";
 import axios from './axios.js';
 import "../css/CourseManagement.css"
+import "../css/Form.css"
 export default function CourseManagement(){
     
     const [showForm,setShowForm] = useState(false);
     const [courses,setCourses] =useState([]);
-    const headers = ['Course Code','Course Name','Subjects']
+    const headers = ['Course Code','Course Name','Subjects' , 'Actions']
+    const [editCourseData , setEditCourseData] =useState()
 
     const fetchCourses= async()=>{
         try{
@@ -29,6 +31,24 @@ export default function CourseManagement(){
         fetchCourses();
     }
 
+    const editCourse =(course)=>{
+        setShowForm(true);
+        setEditCourseData(course)
+    }
+
+    const deleteCourse = async (code)=>{
+        try{
+            if(window.confirm("Are you sure you want to delete this course?")){
+                await axios.delete(`/course/${code}`)
+                alert("Course successfully deleted")
+                fetchCourses()
+            }
+        }
+        catch(err){
+            console.error("Failed to delete course" , err.response.data)
+        }
+    }
+
 
     return(
         <div className="table-container">
@@ -48,7 +68,7 @@ export default function CourseManagement(){
                                         {
                                             Object.entries(course.sem_data).map(([semester , subjects])=>(
                                                 <div key={semester}className="individual_semester_subject_section">
-                                                    <p>{`Semester ${semester}`}</p>
+                                                    <p className="sem-title">{`Semester ${semester}`}</p>
                                                     <ol>
                                                         {
                                                             subjects.map((subject , index)=>(
@@ -61,12 +81,18 @@ export default function CourseManagement(){
                                         }                                       
                                     </div>
                                 </td>
+                                <td>
+                                    <div className="edit-delete-section"> 
+                                        <button className="edit-btn" onClick={()=>editCourse(course)}>Edit</button>
+                                        <button className="delete-btn" onClick={()=>deleteCourse(course.course_code)}>Delete</button>
+                                    </div>
+                                </td>
                             </tr>
                         ))
                     }
                 </tbody>
             </TableFrame>
-            {showForm && <AddCourseForm closeForm={()=>setShowForm(false)} submitSuccess={submitSuccess}/>}
+            {showForm && <AddCourseForm closeForm={()=>{setShowForm(false) ; setEditCourseData()}} submitSuccess={submitSuccess} editCourseData={editCourseData}/>}
         </div>
     )
 }

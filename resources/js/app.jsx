@@ -22,6 +22,7 @@ import TransportManagement from "./TransportManagement.jsx"
 import ManageAnnouncement from "./AnnouncementManagement.jsx"
 import CourseManagement from "./CourseManagement.jsx"
 import SubjectManagement from "./SubjectManagement.jsx";
+import IntakeManagement from "./IntakeManagement.jsx";
 
 
 
@@ -61,6 +62,7 @@ function AppRoutes (){
           <Route path="/notifications" element={<ProtectedRoute><Notification/></ProtectedRoute>}></Route>
           <Route path ="/course-management" element={<ProtectedRoute role="admin"><CourseManagement/></ProtectedRoute>}></Route>
           <Route path = "/subject-management" element = {<ProtectedRoute role = "admin"><SubjectManagement/></ProtectedRoute>}></Route>
+          <Route path = "/intake-management" element ={<ProtectedRoute role = "admin"><IntakeManagement/></ProtectedRoute>}></Route>
           <Route path ="*" element={<ProtectedRoute><NotFoundPage/></ProtectedRoute>}></Route>
         </Route>  
       </Routes>

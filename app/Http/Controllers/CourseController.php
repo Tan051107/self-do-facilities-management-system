@@ -60,4 +60,33 @@ class CourseController extends Controller
 
         return response()->json($sendData);
     }
+
+    public function deleteCourse(Course $course){
+        $course->delete();
+    }
+
+    public function editCourse(Request $request , Course $course){
+        $incomingFields = $request->validate([
+            'course_code' => ['required' , 'string', Rule::unique('courses' ,'course_code')->ignore($course)],
+            'course_name' => ['required' , 'string'],
+            'semData' => ['required' , 'array'],
+            'semData.*.semester' => ['required' , 'integer'],
+            'semData.*.subject_code' =>['required' , 'string' , 'exists:subjects,subject_code']
+        ]);  
+        
+        $course->update([
+            'course_code' => $incomingFields['course_code'],
+            'course_name' => $incomingFields['course_name']         
+        ]);
+
+        $pivotData = [];
+
+        foreach($incomingFields['semData'] as $sem){
+            $pivotData[$sem['subject_code']] = ['semester'=>$sem['semester']];
+        }
+
+        $course->subjects()->sync($pivotData);
+
+        return response()->json(['message'=>"Course updated successfully"]);
+    }
 }

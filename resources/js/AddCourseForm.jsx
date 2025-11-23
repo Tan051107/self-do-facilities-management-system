@@ -5,7 +5,7 @@ import { useState,useEffect } from 'react'
 import axios from './axios.js';
 import SearchableDropdown from "./SearchableDropdown";
 
-export default function AddCourseForm({closeForm , submitSuccess}){
+export default function AddCourseForm({closeForm , submitSuccess , editCourseData}){
 
     const [semesters,setSemesters] = useState([
         {   sem:1,
@@ -17,6 +17,9 @@ export default function AddCourseForm({closeForm , submitSuccess}){
         course_code:"",
         course_name:"",
     })
+
+    const [validationError, setValidationError] = useState({})
+
 
     const [subjects, setSubjects] = useState([])
 
@@ -34,6 +37,26 @@ export default function AddCourseForm({closeForm , submitSuccess}){
     useEffect(()=>{
         fetchSubjects();
     },[])
+
+    useEffect(()=>{
+        if(editCourseData){
+            setCourseData({
+                course_code:editCourseData.course_code,
+                course_name:editCourseData.course_name,
+            })
+            const formattedSemData = Object.entries(editCourseData.sem_data).map(([semester,subs])=>(
+                {
+                    sem:semester,
+                    subjects:subs.map(sub=>({
+                        subject_code:sub.subject_code,
+                        subject_name:sub.subject_name
+                    }))
+                }
+            ))
+
+            setSemesters(formattedSemData)
+        }      
+    },[editCourseData])
 
 
     const addSemester = ()=>{
@@ -111,48 +134,97 @@ export default function AddCourseForm({closeForm , submitSuccess}){
         }))
     }
 
-    const handlePostCourse = async()=>{
-        const semesterData = semesters.flatMap(semester=>
-            semester.subjects.map(subject=>({
-                semester:semester.sem,
-                subject_code:subject.subject_code
-            }))
-        )
+    const validateDetails = ()=>{
+        const errors = {};
 
-        const sendData = {
-            course_code: courseData.course_code,
-            course_name:courseData.course_name,
-            semData:semesterData
+        if (!courseData.course_code){
+            errors.courseCodeError = "Course code is required."
         }
 
-        try{
-            await axios.post('/course' , sendData);
-            console.log(sendData)
-            alert("Course Added")
-            submitSuccess()
-        }
-        catch(err){
-            console.error("Failed to add course" , err.response.data)
+        if(!courseData.course_name){
+            errors.courseNameError = "Course name is required."
         }
 
+        if(semesters.length < 1){
+            errors.semesterError = "At least one semester is required."
+        }       
+        else{
+            semesters.forEach((semester,semIndex)=>{
+                if (semester.subjects.length > 0){
+                        semester.subjects.forEach((subject,subIndex)=>{
+                        let subjectError = "";
 
-    
+                        if(!subject.subject_code){
+                            subjectError= "Please select a valid subject."
+                        }
+
+                        if(!subject.subject_name){
+                            subjectError= "Subject is required."
+                        }
+
+                        if(subjectError){
+                            if(!errors[semIndex]) errors[semIndex] = {}
+                            errors[semIndex][subIndex] = subjectError;
+                        }                   
+                    })                   
+                }
+                else{
+                    errors[`emptySubjectError${semIndex}`] = "Subject is required"
+                }
+            })
+        }
+
+        return errors
     }
 
+    const handlePostCourse = async()=>{
+        const errors = validateDetails();
+        setValidationError(errors);
+        if(Object.keys(errors).length === 0){
+            const semesterData = semesters.flatMap(semester=>
+                semester.subjects.map(subject=>({
+                    semester:semester.sem,
+                    subject_code:subject.subject_code
+                }))
+            )
 
+            const sendData = {
+                course_code: courseData.course_code,
+                course_name:courseData.course_name,
+                semData:semesterData
+            }
+
+            try{
+                if(editCourseData){
+                    await(axios.put(`/course/${editCourseData.course_code}`,sendData))
+                }
+                else{
+                    await axios.post('/course' , sendData);
+                }
+                console.log(sendData)
+                alert(editCourseData ? "Course Updated" : "Course Added")
+                submitSuccess()
+            }
+            catch(err){
+                console.error("Failed to add course" , err.response.data)
+            }
+        }   
+    }
 
     return(
-        <FormFrame title="Add Course" addButtonLabel="Add" cancelButtonFunction={closeForm} addButtonFunction={handlePostCourse}>
+        <FormFrame title={editCourseData ? "Edit Course" : "Add Course"} addButtonLabel={editCourseData? "Update" : "Add"} cancelButtonFunction={closeForm} addButtonFunction={handlePostCourse}>
             <div className="form-group">
                 <label>
                     <p>Course Code</p>
-                    <input type="text" onChange={(e)=>handleCourseDataChange("course_code" , e.target.value)} />
+                    <input type="text" value={courseData.course_code} onChange={(e)=>handleCourseDataChange("course_code" , e.target.value)}/>
+                    {validationError.courseCodeError && <div className="error-message">{validationError.courseCodeError}</div>}
                 </label>
             </div>
             <div className="form-group">
                 <label>
                     <p>Course Name</p>
-                    <input type="text" onChange={(e)=>handleCourseDataChange("course_name" , e.target.value )}/>
+                    <input type="text" value={courseData.course_name} onChange={(e)=>handleCourseDataChange("course_name" , e.target.value )}/>
+                    {validationError.courseNameError && <div className="error-message">{validationError.courseNameError}</div>}
                 </label>
             </div>
             <div className="add-semester-btn-section">
@@ -178,13 +250,16 @@ export default function AddCourseForm({closeForm , submitSuccess}){
                                                 <span className="material-symbols-rounded">delete</span>
                                             </button>
                                         </div>
+                                        {validationError[semIndex]?.[subjectIndex] && <div className="error-message">{validationError[semIndex]?.[subjectIndex]}</div>}                           
                                     </div>                                       
                                 ))
                             }
                             <p className="add-subject-btn" onClick={()=>addSubjects(semIndex)}><span className="material-symbols-rounded">add</span> Add Subject</p>
+                            {validationError[`emptySubjectError${semIndex}`] && <div className="error-message">{validationError[`emptySubjectError${semIndex}`]}</div>}
                         </div>     
                 ))
             }
+            {validationError.semesterError && <div className="error-message">{validationError.semesterError}</div>}
         </FormFrame>
     )
 }

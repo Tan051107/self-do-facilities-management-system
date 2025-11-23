@@ -13,6 +13,7 @@ export default function Navbar( ) {
   const[isShowNotification,setIsShowNotification] = useState(false)
   const [windowWidth,setWindowWidth] = useState(window.innerWidth)
   const [expandedDropDowns, setExpandedDropDowns] = useState(new Set())
+  const [onHoverLabel , setOnHoverLabel] = useState()
   const nonAdminNavBarElements = [
     { url: '/timetable', label: "Timetable"},
     { url: '/library', label: "Library"},
@@ -24,6 +25,7 @@ export default function Navbar( ) {
     const adminNavBarElements =[
       {label: "Academics", 
         dropdowns:[
+          {url:"/intake-management" , label:"Intake Management"},
           {url:"/course-management" , label:"Course Management"},
           {url:"/subject-management" , label:"Subject Management"},
           {url:"/timetable-management", label:"Timetable Management"}
@@ -97,7 +99,7 @@ export default function Navbar( ) {
 
     function MobileMenu(){
       return(
-        <div className="mobile-menu-container">
+        <div className={`mobile-menu-container ${open && windowWidth<=768 ? "active" : ""}`}>
           {                
             navBarElements.map((navBarElement,index)=>(
               navBarElement.dropdowns?
@@ -157,12 +159,17 @@ export default function Navbar( ) {
     <header>
       <div className="navbar-container">
         <Link to ={`${role === "admin" ? "admin/" : ""}homepage`} onClick={()=>resetExpand()}><img className="logo" src={apuLogo} alt="Apu Logo"/></Link>
-        <nav className={`navbar ${open?"active":""}`}>
+        <nav className={`navbar ${open? "active":""}`}>
           {
             navBarElements.map((navBarElement,index)=>(
               navBarElement.dropdowns?(
-                <div key={index} className="header-menu">
-                  <span className="link">{navBarElement.label}</span>
+                <div key={index} className="header-menu" onMouseOver={()=>setOnHoverLabel(index)} onMouseOut={()=>setOnHoverLabel()}>
+                  <div className="desktop-navbar-label-container">
+                    <span className="link">{navBarElement.label}</span>
+                    <span className="material-symbols-rounded" onClick={()=>toggleExpand(index)}>
+                      {onHoverLabel === index ? "expand_more" : "expand_less"}
+                    </span>                  
+                  </div>
                   <div className="dropdown-container">
                     {
                       navBarElement.dropdowns.map((dropdown,index)=>(
@@ -202,7 +209,7 @@ export default function Navbar( ) {
           </button>
         </div>      
       </div>
-      {open && windowWidth<=768 &&<MobileMenu/>}
+      <MobileMenu/>
     </header>
   );
 }

@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     protected $primaryKey = 'course_code';
-    public $incrementing = false;   // important!
-    protected $keyType = 'string';  // important!
+    public $incrementing = false;   
+    protected $keyType = 'string';  
+
     protected $fillable =[
         'course_code' , 
         'course_name'      
@@ -24,5 +25,9 @@ class Course extends Model
         )
         ->withPivot('semester')
         ->withTimestamps();   ;
+    }
+
+    public function intakes(){
+        return $this->hasMany(Intake::class , 'course_code' , "course_code");
     }
 }

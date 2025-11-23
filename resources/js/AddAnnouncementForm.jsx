@@ -45,7 +45,7 @@ export default function AddAnnouncementForm({editAnnouncementData,submitSuccess,
 
         const selectedDateTime = new Date(form.posting_date_time)
         if (!form.posting_date_time){
-            errors.postingDateTimeError = "Please select a posting date and time"
+            errors.postingDateTimeError = "Posting date and time are required"
         }
 
         if(selectedDateTime < now){
@@ -53,15 +53,15 @@ export default function AddAnnouncementForm({editAnnouncementData,submitSuccess,
         }
 
         if (!form.title){
-            errors.titleError = "Please enter a title"
+            errors.titleError = "Title is required"
         }
 
         if(!form.message){
-            errors.messageError = "Please enter message"
+            errors.messageError = "Message is required"
         }
 
         if(form.recepient.length===0){
-            errors.recepientError = "Please select at least one recepient"
+            errors.recepientError = "At least one recepient is required"
         }
 
         return errors
@@ -71,7 +71,7 @@ export default function AddAnnouncementForm({editAnnouncementData,submitSuccess,
         console.log(form)
         const errors = validateDetails();
         setValidationError(errors)
-        if (Object.keys(validationError).length === 0){
+        if (Object.keys(errors).length === 0){
             try{
                 console.log(form)
                 const request = await(editAnnouncementData

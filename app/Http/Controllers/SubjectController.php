@@ -10,8 +10,8 @@ class SubjectController extends Controller
 {
     public function addSubject(Request $request){
         $incomingFields = $request -> validate([
-            'subject_code' => ['required' , Rule::unique('subjects' , 'subject_code')],
-            'subject_name' => ['required']
+            'subject_code' => ['required' , 'string' ,Rule::unique('subjects' , 'subject_code')],
+            'subject_name' => ['required', 'string']
         ]);
 
         $subject = Subject::create($incomingFields);
@@ -28,8 +28,8 @@ class SubjectController extends Controller
     public function updateSubject ( Request $request , Subject $subject){
 
         $incomingFields = $request -> validate([
-            'subject_code' => ['required'],
-            'subject_name' => ['required']
+            'subject_code' => ['required' ,'string' ,  Rule::unique('subjects' , 'subject_code')->ignore($subject)],
+            'subject_name' => ['required' , 'string']
         ]);
 
         $subject -> update($incomingFields);

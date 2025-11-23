@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\IntakeController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\BusScheduleController;
 use App\Http\Controllers\AnnouncementController;
@@ -42,3 +43,10 @@ Route::put('/subject/{subject}', [SubjectController::class , 'updateSubject']);
 
 Route::post('/course' , [CourseController::class , 'addCourse']);
 Route::get('/course' , [CourseController::class , 'getAllCourse']);
+Route::delete('/course/{course}' , [CourseController::class , 'deleteCourse']);
+Route::put('/course/{course}' , [CourseController::class , 'editCourse']);
+
+Route::post('/intake' , [IntakeController::class, 'addIntake']);
+Route::get('/intake' , [IntakeController::class , 'getAllIntake']);
+Route::delete('/intake/{intake}' , [IntakeController::Class , 'deleteIntake']);
+Route::put('/intake/{intake}' , [IntakeController::class , 'editIntake']);

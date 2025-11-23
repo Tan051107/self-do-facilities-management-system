@@ -4,7 +4,8 @@ input[type="date"],
 input[type="time"],
 input[type="datetime-local"],
 textarea,
-select{
+select,
+input[type="number"]{
     width:100%;
     padding:13px;
     border: 1px solid #ccc;
@@ -20,6 +21,12 @@ select{
 
 .form-group{
     flex:1;
+}
+
+.full-width-error-message-container{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
 }
 
 label{

@@ -1,9 +1,15 @@
 .course_table_subject_column{
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly
 }
 
 .individual_semester_subject_section{
     display:flex;
     flex-direction:column;
+    gap:5px;
+}
+
+.sem-title{
+    font-weight:bold;
 }
