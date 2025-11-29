@@ -58,11 +58,12 @@ export default function AddIntakeForm({closeForm , submitSuccess , editIntakeDat
     }
 
     const handleEnrolNoChange =(column , enrolNo)=>{
-        if(enrolNo === "" || Number(enrolNo) >= 0){
+        const cleanEnrolNo = enrolNo.replace(/[^\d]/g, "")
+        if(cleanEnrolNo === "" || Number(cleanEnrolNo) >= 0){
             setForm(prev=>(
                 {
                     ...prev,
-                    [column]:enrolNo
+                    [column]:cleanEnrolNo
                 }
             ))
         }
@@ -96,6 +97,12 @@ export default function AddIntakeForm({closeForm , submitSuccess , editIntakeDat
 
         if(!form.curr_enrol){
             errors.currEnrolError = "Current enrollments is required."
+        }
+
+        else{
+            if(Number(form.curr_enrol)<0){
+
+            }
         }
 
         if(!form.max_enrol){
@@ -187,7 +194,7 @@ export default function AddIntakeForm({closeForm , submitSuccess , editIntakeDat
                     <div className="form-group">
                         <label>
                             <p>Current Enrollments</p>
-                            <input type="number" min="0" value={form.curr_enrol}
+                            <input type="text" value={form.curr_enrol}
                                     onChange={(e)=>handleEnrolNoChange('curr_enrol' , e.target.value)}/>
                             {validationErrors.currEnrolError && <div className="error-message">{validationErrors.currEnrolError}</div>}
                         </label>
@@ -195,7 +202,7 @@ export default function AddIntakeForm({closeForm , submitSuccess , editIntakeDat
                     <div className="form-group">
                         <label>
                             <p>Maximum Enrollments</p>
-                            <input type="number" min="0" value={form.max_enrol}
+                            <input type="text" value={form.max_enrol}
                                     onChange={(e)=>handleEnrolNoChange('max_enrol' , e.target.value)}/>
                             {validationErrors.maxEnrolError && <div className="error-message">{validationErrors.maxEnrolError}</div>}
                         </label>

@@ -32,14 +32,15 @@ export default function Navbar( ) {
         ]},
       {label: "Services",
         dropdowns:[
-          { url: "/library-management", label: "Library"},
-          {url:"/transport-management" , label: "Transport Management"} 
+          {url: "/library-management", label: "Library"},
+          {url:"/transport-management" , label: "Transport Management"},
+          {url:"/room-management" , label:"Room Management"}
         ]
       },
       {label:"Feedback & Announcement", 
       dropdowns:[
         {url: "/feedback-management", label: "Feedback Management"},
-        { url: "/announcement", label: "Announcement"},
+        {url: "/announcement", label: "Announcement"},
       ]
       },
       {label: "Account Management" , 
@@ -158,7 +159,7 @@ export default function Navbar( ) {
   return (
     <header>
       <div className="navbar-container">
-        <Link to ={`${role === "admin" ? "admin/" : ""}homepage`} onClick={()=>resetExpand()}><img className="logo" src={apuLogo} alt="Apu Logo"/></Link>
+        <Link to ={`${role === "admin" ? "/admin" : "/"}`} onClick={()=>resetExpand()}><img className="logo" src={apuLogo} alt="Apu Logo"/></Link>
         <nav className={`navbar ${open? "active":""}`}>
           {
             navBarElements.map((navBarElement,index)=>(

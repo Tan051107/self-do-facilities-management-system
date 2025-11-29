@@ -234,27 +234,29 @@ export default function AddCourseForm({closeForm , submitSuccess , editCourseDat
                 semesters.map((sem,semIndex)=>(
                         <div className="sem-container" key={semIndex}>
                             <div className="sem-name-section">
-                                <p className="sem-name">{`Semester ${semIndex + 1}`}</p>
+                                <p className="input-title">{`Semester ${semIndex + 1}`}</p>
                                 <button type="button" className="delete-btn delete-semester" onClick={()=>deleteSemester(semIndex)}>Delete Semester</button>
                             </div>
                             {
                                 sem.subjects.map((subject,subjectIndex)=>(
-                                    <div className="form-group subject-input-label-container" key={crypto.randomUUID()}>
-                                        <p>{`Subject ${subjectIndex+1}`}</p>
-                                        <div className="subject-input-container">
-                                            <SearchableDropdown options={getAvailableSubjects(semIndex,subjectIndex)} 
-                                                                value={subject.subject_name} 
-                                                                onSelect={(subject)=>handleSelectSubject(semIndex,subjectIndex,subject)}
-                                            />
-                                            <button type="button" className="delete-subject-btn" onClick={()=>deleteSubject(semIndex,subjectIndex)}>
-                                                <span className="material-symbols-rounded">delete</span>
-                                            </button>
-                                        </div>
+                                    <div className="form-group" key={crypto.randomUUID()}>
+                                        <label>
+                                            <p className="has-title-label">{`Subject ${subjectIndex+1}`}</p>
+                                            <div className="subject-input-container">
+                                                <SearchableDropdown options={getAvailableSubjects(semIndex,subjectIndex)} 
+                                                                    value={subject.subject_name} 
+                                                                    onSelect={(subject)=>handleSelectSubject(semIndex,subjectIndex,subject)}
+                                                />
+                                                <button type="button" className="bin-delete-btn" onClick={()=>deleteSubject(semIndex,subjectIndex)}>
+                                                    <span className="material-symbols-rounded">delete</span>
+                                                </button>
+                                            </div>
+                                        </label>
                                         {validationError[semIndex]?.[subjectIndex] && <div className="error-message">{validationError[semIndex]?.[subjectIndex]}</div>}                           
                                     </div>                                       
                                 ))
                             }
-                            <p className="add-subject-btn" onClick={()=>addSubjects(semIndex)}><span className="material-symbols-rounded">add</span> Add Subject</p>
+                            <p className="add-btn-p" onClick={()=>addSubjects(semIndex)}><span className="material-symbols-rounded">add</span> Add Subject</p>
                             {validationError[`emptySubjectError${semIndex}`] && <div className="error-message">{validationError[`emptySubjectError${semIndex}`]}</div>}
                         </div>     
                 ))

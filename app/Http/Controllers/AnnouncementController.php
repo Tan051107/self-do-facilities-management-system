@@ -97,7 +97,10 @@ class AnnouncementController extends Controller
         }
 
         $unreadAnnouncements = Announcement::where('posting_date_time','<=',now())
-                                            ->whereIn('recepient',[$user->role,'all'])
+                                            ->where(function($announcement) use ($user){
+                                                $announcement->whereJsonContains('recepient' , $user->role)
+                                                             ->orWhereJsonContains('recepient' , 'all');
+                                            })
                                             ->pluck('id')
                                             ->toArray();
         if(!empty($unreadAnnouncements)){

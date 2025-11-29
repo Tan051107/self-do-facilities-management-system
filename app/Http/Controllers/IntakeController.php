@@ -40,5 +40,6 @@ class IntakeController extends Controller
         ]);
 
         $intake->update($incomingFields);
+
     }
 }

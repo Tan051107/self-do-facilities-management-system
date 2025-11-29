@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\IntakeController;
 use App\Http\Controllers\SubjectController;
@@ -50,3 +51,9 @@ Route::post('/intake' , [IntakeController::class, 'addIntake']);
 Route::get('/intake' , [IntakeController::class , 'getAllIntake']);
 Route::delete('/intake/{intake}' , [IntakeController::Class , 'deleteIntake']);
 Route::put('/intake/{intake}' , [IntakeController::class , 'editIntake']);
+
+
+Route::post('/room' , [RoomController::class , 'addRoom']);
+Route::get('/room' , [RoomController::class , 'getAllRooms']);
+Route::delete('/room/{room}' , [RoomController::class , 'deleteRoom']);
+Route::put('/room/{room}' , [RoomController::class , 'editRoom']);
